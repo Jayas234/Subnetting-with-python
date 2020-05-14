@@ -5,7 +5,7 @@ def FLSM(ip_num,k):   #Fixed Length Subnet Mask
         if value>ip_num:
             break
         k+=1
-    print("The Nearest value Of the Given IP'S Range is:",value)
+    #print("The Nearest value Of the Given IP'S Range is:",value,k)
     main_list=[]
     val=''
     bit_val=256
@@ -21,11 +21,13 @@ def FLSM(ip_num,k):   #Fixed Length Subnet Mask
                     if d<net_bits:
                         val+='1'
                         bit_val=bit_val//2
+                        #print(bit_val)
                         b_val=b_val+bit_val
+                        #print(b_val)
                     else:
                         val+='0'
                 main_list.append(int(val))
-                #print(b_val)
+                #print(main_list)
             else:
                 main_list.append(int(bin(int(s[j]))[2:]))
         print("The Binary representation of New Subnet Mask is:",*main_list)
@@ -37,23 +39,60 @@ def FLSM(ip_num,k):   #Fixed Length Subnet Mask
         Prefix_length=16 #Default Prefix Length of class B
         print("Default subnetmask =",B)
         s=B.split('.')
-        print(s,"bclass")
-        for j in range(len(s)):
+        #print(s,"bclass")
+        for j in range(len(s)-1):
             if int(s[j])==0:
-                main_list.append(int('00000000'))
+                net_bits=16-k#6
+                #print(net_bits)
+                for d in range(1,9):
+                    if d<=net_bits:#5
+                        
+                        val+='1' #111111
+                        bit_val=bit_val//2
+                        #print(bit_val,"d VALUE IS",d)
+                        b_val=b_val+bit_val
+                        #print(b_val,"l")
+                    else:
+                        val+='0'
+                main_list.append(int(val))
+                #print(main_list)
             else:
                 main_list.append(int(bin(int(s[j]))[2:]))
+        print("The Binary representation of New Subnet Mask is:",*main_list,"00000000")
+        print("The New Subnet mask value is 255.255.",b_val,".0")
+        print("The Prefix length of the New SubnetMask is:",Prefix_length+net_bits)
+        print("No of Networks :",2**net_bits,)
+        print("No of Hosts :",2**k)
+        
         #print(main_list) 
     else:  #class A
         Prefix_length=8  #Default Prefix length of Class A
         print("Default subnetmask =",A)
         s=A.split('.')
-        print(s,"class c")
-        for j in range(len(s)):
+        #print(s,"class A")
+        for j in range(len(s)-2):
             if int(s[j])==0:
-                main_list.append('00000000')
+                net_bits=24-k#6
+                #print(net_bits)
+                for d in range(1,9):
+                    if d<=net_bits:#5
+                        val+='1' #111111
+                        bit_val=bit_val//2
+                        #print(bit_val,"d VALUE IS",d)
+                        b_val=b_val+bit_val
+                        #print(b_val,"l")
+                    else:
+                        val+='0'
+                main_list.append(int(val))
+                #print(main_list)
             else:
-                main_list.append(bin(int(s[j]))[2:])
+                main_list.append(int(bin(int(s[j]))[2:]))
+                #main_list.append('00000000')
+        print("The Binary representation of New Subnet Mask is:",*main_list,"00000000","00000000")
+        print("The New Subnet mask value is 255.",b_val,".0.0")
+        print("The Prefix length of the New SubnetMask is:",Prefix_length+net_bits)
+        print("No of Networks :",2**net_bits,)
+        print("No of Hosts :",2**k)
     #print(main_list) 
 def VLSM(ip_num,k):   #Variable Length Subnet Mask
     c=1
